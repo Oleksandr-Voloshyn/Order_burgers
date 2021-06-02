@@ -3,6 +3,7 @@ import Header from "./Header";
 import Order from "./Order";
 import MenuAdmin from "./MenuAdmin";
 import sampleBurgers from "../sample-burgers";
+import Burger from "./burger";
 
 class App extends Component {
   state = {
@@ -11,7 +12,6 @@ class App extends Component {
   }
 
   addBurger = (burger) => {
-    console.log('brher', burger)
 // 1. Робимо копію state
     const burgers = {...this.state.burgers}
     // 2. Добавити новий бургер в змінну  burgers
@@ -22,6 +22,15 @@ class App extends Component {
 
   loadSampleBurger = () => {
     this.setState({burgers: sampleBurgers})
+  };
+
+  addToOrder = (key) => {
+    // 1. Робимо копію обєкта state
+    const order = {...this.state.order}
+    //  2. Добавити ключ до заказу зі значенням 1 або обновити теперю значення
+    order[key] = order[key] + 1 || 1;
+    // 3. Записати наш новий обєкт order в state
+    this.setState({order})
   }
 
   render() {
@@ -29,8 +38,17 @@ class App extends Component {
       <div className='burger-paradise'>
         <div className='menu'>
           <Header title={"Very hot burger"}/>
+            <ul className='burgers'>
+              {Object.keys(this.state.burgers).map(key => {
+                return <Burger
+                  key={key}
+                index={key}
+                  addToOrder={this.addToOrder}
+                details={this.state.burgers[key]}/>
+              })}
+            </ul>
         </div>
-        <Order/>
+        <Order burgers={this.state.burgers} order={this.state.order}/>
         <MenuAdmin
           addBurger={this.addBurger}
           loadSampleBurger={this.loadSampleBurger}

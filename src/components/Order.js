@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Shipment from "./Shipment";
 
 class Order extends Component {
 
@@ -15,7 +16,7 @@ class Order extends Component {
     }
 
     return (
-      <li  key={key}>
+      <li key={key}>
         <span>
           <span>{count}</span>
           шт. {burger.name}
@@ -47,15 +48,14 @@ class Order extends Component {
         <ul className='order'>
           {orderIds.map(this.renderOrder)}
         </ul>
-        <div className='total'>
-          <div className='total_wrap'>
-            <div className='total_wrap-final'>
-              Разом: {total}₴
-            </div>
+        {total > 0 ? (
+          <Shipment total={total}/>) : (
+          <div className='nothingSelected'>
+            Виберіть страву і добавте до заказу
           </div>
-        </div>
+        )}
       </div>
-    );
+    )
   }
 }
 
